@@ -613,7 +613,7 @@ var floorDrawElements=function(data) {
     for(var i=0;i<data.length;i++) {
         var matchFound=false;
         
-        if (data[i].controls!==undefined && data[i].control!=null) {
+        if (data[i].controls!==undefined && data[i].controls!=null) {
             for (var j=0; j<data[i].controls.length; j++) {
                 if (data[i].controls[j].haddr !== undefined) {
                     haddrs.push(data[i].controls[j].haddr);
