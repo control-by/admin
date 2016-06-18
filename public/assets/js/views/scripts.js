@@ -274,6 +274,7 @@ $(function(){
 
 		data.conditions=[];
 		data.actions=[];
+		data.nactions=[];
 		data.scripts=[];
 		
 		$('#edit-script form .row').not('.new-row').find('.conditions li.item').each(function(){
@@ -305,6 +306,20 @@ $(function(){
 			data.actions.push(a);
 		});
 		
+		$('#edit-script form .row').not('.new-row').find('.nactions li.item').each(function(){
+			var a={
+				haddr: $(this).find('select.inputoroutput').val()
+			};
+			
+			a.device=iosData[a.haddr].device;
+			a.address=iosData[a.haddr].address;
+			a.value=$(this).find('input.value').val();
+			
+			var delay=parseInt($(this).find('input.delay').val());
+			if (!isNaN(delay) && delay>0) a.delay=delay;
+			
+			data.nactions.push(a);
+		});
 		
 		
 		$('#edit-script form .row').not('.new-row').find('.scripts li.item').each(function(){

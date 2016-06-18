@@ -665,12 +665,18 @@ aside .device-container {
 
 
 #edit-script .modal-body .row .conditions ul li .select2-container {
-    width: 60%;
+    width: 59%;
 }
 
-#edit-script .modal-body .row .actions ul li .select2-container {
+#edit-script .modal-body .row  ul.actions {
+    margin-bottom: 20px;
+}
+
+#edit-script .modal-body .row  ul.actions li .select2-container,
+#edit-script .modal-body .row  ul.nactions li .select2-container {
     width: 76%;
 }
+
 
 #edit-script .modal-body .row .scripts ul li .select2-container {
     width: 80%;
@@ -691,14 +697,16 @@ aside .device-container {
     height: 32px;
 }
 
-#edit-script .modal-body .row .actions ul li .value {
+#edit-script .modal-body .row ul.actions  li .value,
+#edit-script .modal-body .row ul.nactions  li .value{
     border: solid 1px #e0e0e0;
     width:10%;
     height: 32px;
     font-size: 80%;
 }
 
-#edit-script .modal-body .row .actions ul li .delay {
+#edit-script .modal-body .row  ul.actions  li .delay,
+#edit-script .modal-body .row  ul.nactions  li .delay {
     border: solid 1px #e0e0e0;
     width:10%;
     height: 32px;

@@ -25,12 +25,12 @@
             </ul>
         </div>
 
-        <div class="actions col-md-4">
+        <div class="col-md-4">
             
             <div class="card-header">
                 <strong class="translate">Actions</strong> 
             </div>
-            <ul>
+            <ul class="actions">
             [if:actions]
             [loop:actions]
                 <li class="item">
@@ -48,6 +48,33 @@
                 
                 <li class="add plus-last"><i class="icon-plus translate" title="Add action"></i></li>
             </ul>
+
+            <div class="card-header">
+                <strong class="translate">Negative condition actions</strong> 
+            </div>
+            <ul class="nactions">
+            [if:nactions]
+            [loop:nactions]
+                <li class="item">
+                    <select rel="[haddr]" class="inputoroutput"></select>
+                    <input type="text" value="[value]" class="translate value" placeholder="value"/>
+                    <input type="text" [if:delay]value="[delay]"[endif:delay] class="translate delay" placeholder="delay"/>
+                </li>
+            [endloop:nactions]
+            [endif:nactions]
+                <li class="new-item">
+                    <select rel="" class="inputoroutput"></select>
+                    <input type="text" class="translate value" placeholder="value"/>
+                    <input type="text" class="translate delay" placeholder="delay"/>
+                </li>
+                
+                <li class="add plus-last"><i class="icon-plus translate" title="Add action"></i></li>
+            </ul>
+
+
+
+
+
         </div>
 
 
