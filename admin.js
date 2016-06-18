@@ -86,6 +86,23 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
       
     };
     
+    var fileRename = function (f,t,cb) {
+        if (t.length==0) {
+            fileUnlink(f,cb);
+            return;
+        }
+        var fp=public_path +'/'+images+'/'+f;
+        t=t.replace(/[*%\/]+/g,'_');
+        var tp=public_path +'/'+images+'/'+path.dirname(f)+'/'+t;
+        
+  
+        try {
+            fs.rename(fp,tp,cb);  
+        } catch(e) {
+            cb();
+        }  
+    };
+    
     var fileExists=function(f) {
         var p=public_path +'/'+images+'/'+f;
 
@@ -745,6 +762,13 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
     
     socket.on('remove-file',function(f){
         fileUnlink(f,function(){
+            var dir=path.dirname(f);
+            socket.emit('files',dir,fileDirList(dir));
+        });
+    });
+    
+    socket.on('rename-file',function(f,t){
+        fileRename(f,t,function(){
             var dir=path.dirname(f);
             socket.emit('files',dir,fileDirList(dir));
         });

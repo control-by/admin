@@ -271,6 +271,13 @@ var displayFileList = function(dir,files) {
 				var f=$(this).parent().find('input').attr('rel');
 				websocket.emit('remove-file',f);
 			});
+			
+			$('#edit-control .modal-body ul.images li input').change(function() {
+				var inp=$(this).parent().find('input');
+				
+				websocket.emit('rename-file',inp.attr('rel'),inp.val());
+				
+			});
 		
 		});
 		
