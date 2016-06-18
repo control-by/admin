@@ -101,7 +101,6 @@ websocket.on('structure',function(data){
 
 websocket.on('floor-select',function(data){
     if (typeof(floorDrawElements)=='function') {
-        console.log('floor is commig',data.data.length);
         websocket.emit('floor-select-ok',data.data.length);
         floorDrawElements(data.data); 
     }    

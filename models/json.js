@@ -195,7 +195,7 @@ var Model = function(opt,logger) {
         idx=createIndex(d);
  
         if (idx=='_' && index.length==1) {
-            d[index[0]]=max_element(index[0])+1;
+            d[index[0]]=parseInt(max_element(index[0]))+1;
             idx=createIndex(d);
         }
        

@@ -51,7 +51,7 @@ var scriptsColumns=[
 		title: $.translate("Actions"),
 		orderable: false,
 		data: null,
-		defaultContent: '<a class="btn btn-info" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#edit-script"></i></a> <a class="btn btn-danger" data-target="#confirm-delete" data-toggle="modal" href="#"><i class="fa fa-trash-o "></i></a>'
+		defaultContent: '<a class="btn btn-info" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#edit-script"></i></a> <a class="btn btn-danger" data-target="#confirm-delete" data-toggle="modal" href="#"><i class="fa fa-trash-o "></i></a> <a class="btn btn-success" href="#"><i class="fa fa-play-circle-o "></i></a>'
 	}
 ];
 
@@ -234,6 +234,13 @@ $(function(){
 				active: $(this).prop('checked') 
 			};
 			websocket.emit('db-save','scripts',data);
+		});
+		
+		$(document).on('click','.scripttable a.btn-success', function() {
+
+			var id = $(this).parent().parent().attr('id');
+			busSend('script',id);
+			
 		});
 		
 		
