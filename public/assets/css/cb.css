@@ -57,6 +57,10 @@ body:not(.top-nav) .sidebar .sidebar-header .img-avatar{
     outline: none;
 }
 
+#project-structure input.haddr {
+    width: 100%;
+}
+
 .project .form-actions {
     margin-left: 3px;
 }

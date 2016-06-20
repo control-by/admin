@@ -46,8 +46,12 @@ $(function() {
         $.projectStuffInitiated=true;   
 
             
-        $(document).on('change', '#project-structure input', function(e) {
+        $(document).on('change', '#project-structure input.name', function(e) {
             websocket.emit('db-save','structure',{id:$(this).attr('rel'),name: $(this).val()});
+        });
+        
+        $(document).on('change', '#project-structure input.haddr', function(e) {
+            websocket.emit('db-save','structure',{id:$(this).attr('rel'),haddr: $(this).val()});
         });
         
         $(document).on('click', '#project-structure .add-sub', function(e) {
