@@ -75,11 +75,13 @@ var zoomContainer = function(z,set,e) {
         $(sel).css('-moz-transform','scale('+current+')');
         $(sel).css('zoom',current);
         
-        var ox=e.pageX-$('#floor-container').offset().left;
-        var oy=e.pageY-$('#floor-container').offset().top;
-
-        $(sel).css('left',(x+(1-z)*ox/current)+'px');
-        $(sel).css('top',(y+(1-z)*oy/current)+'px');    
+        if (e!=null) {
+            var ox=e.pageX-$('#floor-container').offset().left;
+            var oy=e.pageY-$('#floor-container').offset().top;
+    
+            $(sel).css('left',(x+(1-z)*ox/current)+'px');
+            $(sel).css('top',(y+(1-z)*oy/current)+'px');                
+        }
     }    
     
     return current;    
@@ -203,7 +205,7 @@ var debugContainer = function() {
     floorDebug('F/C:'+$('#floor-container').width()+'/'+$('#floor-container .draggable-container').width()+', z:'+Math.round(10*zoomContainer())/10);
 }
 
-var calculateWH = function () {
+var calculateWH = function (autoheight) {
     
     var top=270;
     
@@ -212,7 +214,12 @@ var calculateWH = function () {
     var height=parseInt($(window).height())-top;
     if (height<200) height=200;
     
-    $('#floor-container').height(height);
+    if (autoheight) {
+        $('#floor-container').css('height','auto');
+    } else {
+        $('#floor-container').height(height);
+    }
+    
     //$('img.svg').width($('#floor-container .draggable-container').width());
     $('img.svg').width($('#floor-container').width());
     $('#floor-container .draggable-container').width($('#floor-container').width());
@@ -790,7 +797,7 @@ var printFloor = function (start) {
     floorDebug('Prn: p: '+$('.draggable-container').position().left+' x '+$('.draggable-container').position().top+', w: '+$('#floor-container').width()+', '+$('.draggable-container').width());
     zoomContainer(1,1);
     $('.draggable-container').css({left:0, top:0});
-    calculateWH();
+    calculateWH(start);
 }
 
 
