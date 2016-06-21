@@ -29,7 +29,7 @@ var Model = function(opt,logger) {
     
     var indexElement = function (ret) {
         
-        if (typeof(ret)=='number' || ret.match(/^[0-9]+$/)) {
+        if (ret!=null) if (typeof(ret)=='number' || ret.match(/^[0-9]+$/)) {
             var len=String(ret).length;
             var prefix='_';
             for (var i=0;i<16-len;i++) {

@@ -115,11 +115,16 @@ var Device = function(device, zoomfun, emiterfun) {
                         } else {
                             mdown=mdown.split(',');
                             var size=mdown.length;
-                            state=mdown[lastIdx%size];
-                            lastIdx++;
-                            $(this).attr('_counter',lastIdx);                            
+                            var stindex=mdown.indexOf($(this).attr('state'));
+                            if (stindex>=0) {
+                                state=mdown[(stindex+1)%size];
+                            } else {
+                                state=mdown[lastIdx%size];
+                                lastIdx++;
+                                $(this).attr('_counter',lastIdx);                                 
+                            }
+                           
                         }
-                        
 
                         emiterfun($(this).attr('haddr'),state);
                     });
