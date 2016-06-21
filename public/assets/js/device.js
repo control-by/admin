@@ -195,7 +195,7 @@ var Device = function(device, zoomfun, emiterfun) {
         _default.width=_dom.width();
         _default.height=_dom.find('.controls-container').height() + _dom.find('.device-label').height();
         
-        _default.devicesHeight=controls.height();
+        _default.devicesHeight=controls.height()*1.25;
         
         _default.fontSize=parseInt(label.css('font-size'));
         

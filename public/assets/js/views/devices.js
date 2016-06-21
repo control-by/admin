@@ -35,7 +35,8 @@ var deviceGroups = [
         {value:'sun-o', label:'Lights'},
         {value:'toggle-on', label:'Switches'},
         {value:'television', label:'Multimedia'},
-        {value:'cloud', label:'Temperature'}
+        {value:'cloud', label:'Temperature'},
+		{value:'film', label:'Moving elements'}
 ];
 
 /*
@@ -513,11 +514,14 @@ $(function(){
 			data[$(this).attr('name')]=$(this).val();
 		});
 		
-		if (typeof(data.tags)=='object') data.tags=data.tags.join(' ');
+
+		if (typeof(data.tags)=='object' && data.tags!=null) data.tags=data.tags.join(' ');
 		
 		data.wh = $('#edit-device .device-controls-container').width() / $('#edit-device .device-controls-container').height();
 		
 		var controls=[];
+		
+		
 		
 		$('#edit-device .device-controls-container div').each( function(){
 			if ($(this).attr('type')===undefined) return;
