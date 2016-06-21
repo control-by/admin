@@ -18,6 +18,7 @@ var iosColumns=[
 	},
 	{ title: $.translate("H-address"), data: "haddr" },
 	{ title: $.translate("Address"), data: "address" },
+	{ title: $.translate("Device"), data: "device" },
 	{ title: $.translate("Value"), data: "value" },
 	{ title: $.translate("Type"), data: "type" },
     
