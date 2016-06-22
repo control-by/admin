@@ -1,4 +1,5 @@
 var fs = require('fs');
+var exec = require('child_process').execFile;
 
 var instances=[];
 
@@ -81,10 +82,13 @@ var Model = function(opt,logger) {
         fs.renameSync(file, bak);
         fs.writeFileSync(file,JSON.stringify(getData()));
         
-        logger.log("Saved "+file,'db');
-        fs.unlink(bak);
-        lastSave=Date.now();
-        saveState=false;
+        exec('fsync',file,function(e,stdout,stderr){
+            logger.log("Saved "+file,'db');
+            fs.unlink(bak);
+            lastSave=Date.now();
+            saveState=false;        
+        });
+        
     
     }
     
