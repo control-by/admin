@@ -141,3 +141,21 @@ websocket.on('scripts',function(data){
         loadScripts(data); 
     }    
 });
+
+
+websocket.on('web',function(web) {
+    var host=location.hostname;
+    if (host.indexOf('webkameleon')>=0) {
+        for (i=0;i<web.ips.length;i++) {
+            var url='http://'+web.ips[i]+':'+web.port;
+            $.get(url+'/check-homiq-web',function (data) {
+                if (data=='OK') {
+                    $('body').html('<iframe src="'+url+'"></iframe>');
+                }
+            });
+              
+        }
+    }
+          
+});
+
