@@ -151,7 +151,7 @@ websocket.on('web',function(web) {
             $.get(url+'/check-web',function (data) {
                 if (data.substr(0,2)=='OK') {
                     url='http://'+data.substr(3);
-                    $('body').html('<iframe src="'+url+'"></iframe>');
+                    //$('body').html('<iframe src="'+url+'"></iframe>');
                 }
             });
               
