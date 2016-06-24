@@ -82,7 +82,7 @@ var Model = function(opt,logger) {
         fs.renameSync(file, bak);
         fs.writeFileSync(file,JSON.stringify(getData()));
         
-        exec('fsync',file,function(e,stdout,stderr){
+        var e=exec('fsync',[file],function(error,stdout,stderr){
             logger.log("Saved "+file,'db');
             fs.unlink(bak);
             lastSave=Date.now();
