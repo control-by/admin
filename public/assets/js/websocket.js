@@ -149,7 +149,8 @@ websocket.on('web',function(web) {
         for (i=0;i<web.ips.length;i++) {
             var url='http://'+web.ips[i]+':'+web.port;
             $.get(url+'/check-web',function (data) {
-                if (data=='OK') {
+                if (data.substr(0,2)=='OK') {
+                    url='http://'+data.substr(3);
                     $('body').html('<iframe src="'+url+'"></iframe>');
                 }
             });
