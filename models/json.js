@@ -82,12 +82,18 @@ var Model = function(opt,logger) {
         fs.renameSync(file, bak);
         fs.writeFileSync(file,JSON.stringify(getData()));
         
-        var e=exec('fsync',[file],function(error,stdout,stderr){
-            logger.log("Saved "+file,'db');
+        try {
+            var e=exec('fsync',[file],function(error,stdout,stderr){
+                logger.log("Saved "+file,'db');
+                fs.unlink(bak);
+                lastSave=Date.now();
+                saveState=false;        
+            });
+        } catch(e) {
+            logger.log('fsync: '+e,'error');
+            saveState=false;
             fs.unlink(bak);
-            lastSave=Date.now();
-            saveState=false;        
-        });
+        }
         
     
     }
