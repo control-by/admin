@@ -375,9 +375,13 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
 
     }
     
+    var array_diff = function (a,b) {
+        return a.filter(function(x) {return b.indexOf(x)<0});
+    }
+    
     var afterSavedFunctions = {
         
-        projects: function(d,idxName,cb) {
+        projects: function(d,idxName,oldData,cb) {
             session[hash].project=d[idxName];
             wallProjects();
             
@@ -396,7 +400,7 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
             
         },
         
-        structure: function(rec,idxName,cb) {
+        structure: function(rec,idxName,oldData,cb) {
             var finish=function(rec,cb) {
                 wallStructure(session[hash].project,true);
                 if (typeof(cb)=='function') cb(rec);
@@ -436,7 +440,7 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
 
         },
         
-        devices: function(d,idxName,cb) {
+        devices: function(d,idxName,oldData,cb) {
             controlsFillAddr('devices',d,function(rec){
                 wallDevices();
                 if (typeof(cb)=='function') cb(rec);
@@ -444,7 +448,7 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
             
         },
         
-        floor: function(d,idxName,cb) {
+        floor: function(d,idxName,oldData,cb) {
 
             var finish=function(rec,cb) {
                 if (typeof(rec.floor)!='undefined') wallFloor(rec.floor);
@@ -502,12 +506,12 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
             });
         },
         
-        users: function(d,idxName,cb) {
+        users: function(d,idxName,oldData,cb) {
             updateUserSessionData(d);
             if (typeof(cb)=='function') cb(d);
         },
         
-        ios: function(d,idxName,cb) {
+        ios: function(d,idxName,oldData,cb) {
       
             if (d[idxName]=='_new') {
                 database.ios.remove('_new',function(){
@@ -518,13 +522,38 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
                     }
                 
                 });
-            } else cb(d);
+            } else {
+                var added=array_diff(d.related||[] , oldData.related||[]);
+                var removed=array_diff(oldData.related||[] , d.related||[]);
+                var me=d.haddr;
+                
+                for (var i=0; i<added.length; i++) {
+                    database.ios.get(added[i],function(rec){
+                        var related=rec.related||[];
+                        if (related.indexOf(me)<0) related.push(me);
+                        rec.related=related;
+                        database.ios.set(rec);
+                    });
+                }
+                for (var i=0; i<removed.length; i++) {
+                    database.ios.get(removed[i],function(rec){
+                        var related=rec.related||[];
+                        var i=related.indexOf(me);
+                        if (i>=0) {
+                            rec.related.splice(i,1);
+                        }
+                        database.ios.set(rec);
+                    });
+                }
+                
+                if (typeof(cb)=='function') cb(d);
+            }
         }
     }
     
-    var afterSaved = function(db,rec,idxName,cb) {
+    var afterSaved = function(db,rec,idxName,oldData,cb) {
         if (typeof(afterSavedFunctions[db])=='function') {
-            afterSavedFunctions[db](rec,idxName,cb);
+            afterSavedFunctions[db](rec,idxName,oldData,cb);
         } else if (typeof(cb)=='function') {
             cb(rec);
         }
@@ -585,9 +614,18 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
         if (!loggedIn) return;
         if (typeof(database[db])=='undefined') return;
         if (typeof(idxName)=='undefined') idxName='id';
+        
+        var old={};
+        
         if (typeof(d[idxName])=='undefined') d[idxName]=0;
+        else {
+            database[db].get(d,function(data){
+                old=JSON.parse(JSON.stringify(data));
+            });
+        }
         
         
+
         
         var dependencies=0;
         
@@ -647,7 +685,7 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
                 }
 
                 
-                afterSaved(db,d,idxName,function(rec) {
+                afterSaved(db,d,idxName,old,function(rec) {
                     //if (db!='langs') console.log(rec);
                     socket.emit(db,rec);
                 });

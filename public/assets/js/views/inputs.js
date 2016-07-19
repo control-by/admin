@@ -2,8 +2,6 @@
  * @author Piotr Podstawski <piotr@webkameleon.com>
  */
 
-
-
 /*
  * columns definitions for DataTable
  */
@@ -17,15 +15,16 @@ var iosColumns=[
 		}
 	},
 	{ title: $.translate("H-address"), data: "haddr" },
-	{ title: $.translate("Address"), data: "address" },
-	{ title: $.translate("Device"), data: "device" },
-	{ title: $.translate("Value"), data: "value" },
-	{ title: $.translate("Type"), data: "type" },
+	{ title: $.translate("Address"), data: "address", width: "10%" },
+	{ title: $.translate("Device"), data: "device", width: "13%" },
+	{ title: $.translate("Value"), data: "value",width: "7%" },
+	{ title: $.translate("Type"), data: "type",width: "7%" },
     
     {
 		title: $.translate("Active"),
 		data: "active",
 		sortable: false,
+		width: "5%",		
 		render: function ( data, type, full, meta ) {
 			var ch=data==1?'checked':'';
 			
@@ -36,6 +35,7 @@ var iosColumns=[
 		title: $.translate("Actions"),
 		orderable: false,
 		data: null,
+		width: "13%",
 		defaultContent: '<a class="btn btn-info" href="#"><i class="fa fa-edit" data-toggle="modal" data-target="#edit-input"></i></a> <a class="btn btn-danger" data-target="#confirm-delete" data-toggle="modal" href="#"><i class="fa fa-trash-o "></i></a>'
 	}
 ];
@@ -158,6 +158,7 @@ $(function(){
 			$('#edit-input').attr('rel',id);
 			$('#edit-input .modal-header h4 input').val(iosData[id].name);
 			
+		
 			websocket.emit('db-get','actions',id);
 			websocket.once('actions',function(actions) {
 				/*
@@ -172,7 +173,7 @@ $(function(){
 				data.id=id;
 				data.actions=actions.actions;
 				
-				console.log(data);
+				
 				$.smekta_file('views/smekta/input-actions.html',data,'#edit-input .modal-body',function(){
 					
 					$('#edit-input .modal-body .translate').translate();
@@ -181,6 +182,9 @@ $(function(){
 
 					drawScriptSelects('#edit-input .modal-body .container-fluid .item',scriptsDataArray);
 					drawIOSelects('#edit-input .modal-body .container-fluid .item',iosDataArray);
+					
+					drawIOSelects('#edit-input .modal-body .related',iosDataArray,data.related||[]);
+					
 					drawConditions('#edit-input .modal-body .container-fluid .item');
 				});
 
@@ -255,9 +259,13 @@ $(function(){
 		data.name=$('#edit-input input[name="name"]').val();
 		
 		var sa=$('#edit-input form').serializeArray();
+		
+
 		for(var i=0;i <sa.length; i++) {
 			data[sa[i].name] = sa[i].value;
 		}
+		data.related=$('#edit-input form .related select').val();
+		
 
 		websocket.emit('db-save','ios',data,'haddr');
 		

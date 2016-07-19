@@ -30,27 +30,27 @@
         </div>
     </div>
     
-    <div class="col-md-1">
+    <div class="col-md-2">
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon translate">IO</span>
+                <span class="input-group-addon translate">IN or OUT</span>
                 <input io="text" id="io" value="[io]" name="io"
                        class="form-control translate" placeholder="I/O">
             </div>
         </div>
     </div>
     
-    <div class="col-md-3">
+    <div class="col-md-4 related">
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon translate">GPF</span>
-                <input io="text" id="gpf" [if:gpf]value="[gpf]"[endif:gpf] name="gpf"
-                       class="form-control translate" placeholder="General Purpose Field">
+                <span class="input-group-addon translate">Related</span>
+                <select name="related" id="related" class="form-control inputoroutput" multiple></select>
             </div>
         </div>
     </div> 
     
 </div>
+
 
 <div class="container-fluid">
 [loop:actions]

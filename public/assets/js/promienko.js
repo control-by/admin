@@ -26,9 +26,10 @@ var drawScriptSelects = function(selection,scripts) {
 	});
 }
 
-var drawIOSelects = function(selection,ios) {
+var drawIOSelects = function(selection,ios,selected) {
 
 	var obj;
+	
 	if (typeof(selection)=='object') {
 		obj=selection.find('select.inputoroutput');
 	} else if (typeof(selection)=='string') {
@@ -40,11 +41,22 @@ var drawIOSelects = function(selection,ios) {
 		var id=$(this).attr('rel');
 		var select=$(this);
 
+		if (selected!=null) {
+            var iosdata=JSON.parse(JSON.stringify(ios));
+			for (var i=0; i<iosdata.length; i++) {
+				if (selected.indexOf(iosdata[i].haddr)>=0) {
+                    iosdata[i].selected=1;
+                }
+			}
 
+        } else {
+			var iosdata=ios;
+		}
+		
 		$.smekta_file('views/smekta/inputoutput-select.html',{
-			ios:ios,
+			ios:iosdata,
 			},this,function() {
-				select.val(id);
+				if (selected==null) select.val(id);
 				select.select2();
 		});
 	});
