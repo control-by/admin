@@ -84,6 +84,10 @@ var drawConditions = function (selection) {
 		html+='</select>';
 		html+='<select class="cond_eq">';
 		html+='<option value="=" '+(cond[1]=='='?'selected':'')+'>=</option>';
+		html+='<option value=">" '+(cond[1]=='>'?'selected':'')+'>&gt;</option>';
+		html+='<option value="<" '+(cond[1]=='<'?'selected':'')+'>&lt;</option>';
+		html+='<option value="!=" '+(cond[1]=='!='?'selected':'')+'>!=</option>';
+		
 		html+='</select>';
 		html+='<input type="text" size="1" value="'+cond[2]+'" class="cond_value" />';
 		$(this).html(html);
