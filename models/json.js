@@ -113,6 +113,49 @@ var Model = function(opt,logger) {
         
     };
     
+    var compare = function (val1,val2,operator) {
+        var cond=true;
+        
+        if (typeof(val1)=='object' && val1!=null) {
+            for (var i=0; i<val1.length; i++) {
+                if (compare(val1[i],val2,operator)) return true;
+            }
+            
+            return false;
+        }
+        
+        
+        switch (operator) {
+            case '<>':
+            case '!=': {
+                if (val1==val2) cond=false;
+                break;
+            }
+            case '>': {
+                if (val1>=val2) cond=false;
+                break;     
+            }
+            case '<': {
+                if (val1<=val2) cond=false;
+                break;     
+            }
+            case '>=': {
+                if (val1>val2) cond=false;
+                break;     
+            }
+            case '<=': {
+                if (val1<val2) cond=false;
+                break;     
+            }
+            
+            default: {
+                if (val1!=val2) cond=false;
+            }
+        }
+        
+        return cond;
+    }
+    
     var condition = function (rec,where) {
         if (where==null) where=[{}];
         
@@ -121,33 +164,9 @@ var Model = function(opt,logger) {
             for (var c in where[i]) {
                 if (typeof(rec[c])=='undefined' && where[i][c]!=null) cond=false;
                 if (typeof(where[i][c])=='object' && where[i][c]!=null) {
-                    
-                    switch (where[i][c][0]) {
-                        case '<>':
-                        case '!=': {
-                            if (where[i][c][1]==rec[c]) cond=false;
-                            break;
-                        }
-                        case '>': {
-                            if (where[i][c][1]>=rec[c]) cond=false;
-                            break;     
-                        }
-                        case '<': {
-                            if (where[i][c][1]<=rec[c]) cond=false;
-                            break;     
-                        }
-                        case '>=': {
-                            if (where[i][c][1]>rec[c]) cond=false;
-                            break;     
-                        }
-                        case '<=': {
-                            if (where[i][c][1]<rec[c]) cond=false;
-                            break;     
-                        }
-                    }
-                    
+                    if (!compare(where[i][c][1],rec[c],where[i][c][0])) cond=false;
                 } else {
-                    if (where[i][c]!=rec[c]) cond=false;
+                    if (!compare(where[i][c],rec[c],'=')) cond=false;
                 }
             }
             if (cond) return true;
