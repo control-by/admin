@@ -25,6 +25,7 @@ var Model = function(opt,logger) {
     instances[file]=this;
     self=this;
     var inited=false;
+    var triggers={};
     
     if (logger==null) logger=console;
     
@@ -206,6 +207,11 @@ var Model = function(opt,logger) {
         for (var k in d) {
             if (typeof(data[idx][k])=='undefined' || data[idx][k]!=d[k]) {
                 data[idx][k]=d[k];
+                if (triggers[k]!=null) {
+                    for (var i=0;i<triggers[k].length;i++) {
+                        triggers[k][i](data[idx]);
+                    }
+                }
                 anythingChanged=true;
             }
             
@@ -238,7 +244,12 @@ var Model = function(opt,logger) {
         lastSet=Date.now();
         if (cb) cb(d);
         else return d;
-    }
+    };
+    
+    var trigger = function(field,cb) {
+        if (triggers[field]==null) triggers[field]=[];
+        triggers[field].push(cb);
+    };
     
     
     return {
@@ -370,6 +381,10 @@ var Model = function(opt,logger) {
         
         inited: function () {
             return inited;
+        },
+        
+        trigger: function(field,cb){
+            return trigger(field,cb);
         }
  
         
