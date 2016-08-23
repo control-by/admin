@@ -81,7 +81,7 @@ var drawConditions = function (selection) {
 		var html='<select class="cond_what">';
 		html+='<option value="value" '+(cond[0]=='value'?'selected':'')+'>value</option>';
 		html+='<option value="time" '+(cond[0]=='time'?'selected':'')+'>time</option>';
-		html+='<option value="temp_change" '+(cond[0]=='temp_change'?'selected':'')+'>T: 1,0,-1</option>';
+		html+='<option value="temp_change" '+(cond[0]=='temp_change'?'selected':'')+'>T: 1,-1</option>';
 		
 		html+='<option value="haddr" '+(cond[0]=='haddr'?'selected':'')+'>address</option>';
 		
