@@ -100,6 +100,14 @@ var loadIOs = function() {
 
 }
 
+var io_input_toggle = function () {
+	if ($('#edit-input .modal-body #io').val().toLowerCase()=='t') {
+		$('#edit-input .modal-body .temps').fadeIn(1000);
+	} else {
+		$('#edit-input .modal-body .temps').fadeOut(1000);
+	}
+}
+
 
 $(function(){
 	
@@ -186,6 +194,7 @@ $(function(){
 					drawIOSelects('#edit-input .modal-body .related',iosDataArray,data.related||[]);
 					
 					drawConditions('#edit-input .modal-body .container-fluid .item');
+					io_input_toggle();
 				});
 
 				
@@ -234,7 +243,7 @@ $(function(){
 			websocket.emit('db-save','ios',data,'haddr');
 		});
 		
-		
+		$(document).on('change','#edit-input .modal-body #io', io_input_toggle);
 		
 		$.iosInitiated=true;
     }

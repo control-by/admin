@@ -624,6 +624,11 @@ aside .device-container {
     margin: 5px 0 3px 0;
 }
 
+#edit-input .modal-body .temps {
+    display: none;
+}
+
+
 
 #edit-script .modal-header input {
     width: 100%;
