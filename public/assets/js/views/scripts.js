@@ -189,7 +189,7 @@ $(function(){
 			$('#edit-script .modal-header h4 input').val(scriptsData[id].name);
 			
 			
-			console.log(scriptsData[id]);
+			//console.log(scriptsData[id]);
 			$.smekta_file('views/smekta/script-actions.html',scriptsData[id],'#edit-script .modal-body',function(){
 				
 				$('#edit-script .modal-body .translate').translate();
