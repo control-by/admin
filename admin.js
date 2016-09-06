@@ -522,32 +522,7 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
                     }
                 
                 });
-            } else {
-                var added=array_diff(d.related||[] , oldData.related||[]);
-                var removed=array_diff(oldData.related||[] , d.related||[]);
-                var me=d.haddr;
-                
-                for (var i=0; i<added.length; i++) {
-                    database.ios.get(added[i],function(rec){
-                        var related=rec.related||[];
-                        if (related.indexOf(me)<0) related.push(me);
-                        rec.related=related;
-                        database.ios.set(rec);
-                    });
-                }
-                for (var i=0; i<removed.length; i++) {
-                    database.ios.get(removed[i],function(rec){
-                        var related=rec.related||[];
-                        var i=related.indexOf(me);
-                        if (i>=0) {
-                            rec.related.splice(i,1);
-                        }
-                        database.ios.set(rec);
-                    });
-                }
-                
-                if (typeof(cb)=='function') cb(d);
-            }
+            } 
         }
     }
     
