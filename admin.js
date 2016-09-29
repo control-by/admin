@@ -522,7 +522,9 @@ var Admin = function(socket,session,hash,database,public_path,ini,logger) {
                     }
                 
                 });
-            } 
+            } else if (typeof(cb)=='function') {
+                cb(d);
+            }
         }
     }
     
