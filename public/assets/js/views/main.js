@@ -27,15 +27,27 @@ $(function(){
                     values.push(parseFloat(collections[k].data[i].value));
                 }
                 
+                var color='';
+                switch (collections[k].temp) {
+                    case 0:
+                        color="rgba(200,200,20,0.7)";
+                        break;
+                    case -1:
+                        color="rgba(20,20,200,0.7)";
+                        break;
+                    case 1:
+                        color="rgba(200,20,20,0.7)";
+                        break;
+                }
+                
                 var data = {
                     labels: labels,
                     datasets: [
                         {
                             label: collections[k].name.substr(0,5)+'...',
-                            fillColor: $.brandInfo,
                             fill: true,
                             lineTension: 0,
-                            backgroundColor: "rgba(250,192,192,0.4)",
+                            backgroundColor: color,
                             borderColor: "rgba(20,20,192,1)",
                             borderCapStyle: 'butt',
                             borderDash: [],
