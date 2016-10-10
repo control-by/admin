@@ -7,14 +7,26 @@ $(function(){
 
     websocket.emit('collections');
     websocket.once('collections',function(collections){
-        console.log(collections);
+        
+     
         var a=[];
         
         for (var k in collections) {
             collections[k].symbol=k;
+            switch (collections[k].temp) {
+                case 0:
+                    collections[k].type="warning";
+                    break;
+                case -1:
+                    collections[k].type="info";
+                    break;
+                case 1:
+                    collections[k].type="danger";
+                    break;
+            }
             a.push(collections[k]);
         }
-        
+        console.log(a);
         $.smekta_file('views/smekta/collection-card.html',{cards:a},'.collection-cards',function(){
         
     
@@ -27,18 +39,7 @@ $(function(){
                     values.push(parseFloat(collections[k].data[i].value));
                 }
                 
-                var color='';
-                switch (collections[k].temp) {
-                    case 0:
-                        color="rgba(200,200,20,0.7)";
-                        break;
-                    case -1:
-                        color="rgba(20,20,200,0.7)";
-                        break;
-                    case 1:
-                        color="rgba(200,20,20,0.7)";
-                        break;
-                }
+
                 
                 var data = {
                     labels: labels,
@@ -47,7 +48,6 @@ $(function(){
                             label: collections[k].name.substr(0,5)+'...',
                             fill: true,
                             lineTension: 0,
-                            backgroundColor: color,
                             borderColor: "rgba(20,20,192,1)",
                             borderCapStyle: 'butt',
                             borderDash: [],
